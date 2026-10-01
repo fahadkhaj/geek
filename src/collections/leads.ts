@@ -1,4 +1,5 @@
-import type { CollectionConfig } from 'payload'
+﻿import type { CollectionConfig } from 'payload'
+import { notifyNewLead } from '@/lib/notify'
 
 export const Leads: CollectionConfig = {
   slug: 'leads',
@@ -11,6 +12,26 @@ export const Leads: CollectionConfig = {
     create: () => true,
     update: ({ req }) => !!req.user,
     delete: ({ req }) => req.user?.role === 'super-admin',
+  },
+  hooks: {
+    afterChange: [
+      async ({ doc, operation }) => {
+        if (operation !== 'create') return doc
+
+        await notifyNewLead({
+          name: doc.name,
+          email: doc.email,
+          organisation: doc.organisation ?? undefined,
+          phone: doc.phone ?? undefined,
+          budget: doc.budget ?? undefined,
+          timeline: doc.timeline ?? undefined,
+          brief: doc.brief,
+          capabilities: doc.capabilities ?? undefined,
+        })
+
+        return doc
+      },
+    ],
   },
   fields: [
     { name: 'name', type: 'text', required: true },

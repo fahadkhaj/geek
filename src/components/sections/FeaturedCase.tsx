@@ -5,15 +5,36 @@ import config from '@payload-config'
 
 export async function FeaturedCase() {
   const payload = await getPayload({ config })
-  const { docs } = await payload.find({
+
+  let { docs } = await payload.find({
     collection: 'projects',
-    where: { featured: { equals: true }, status: { equals: 'published' } },
+    where: {
+      featured: { equals: true },
+      status: { equals: 'published' },
+    },
     limit: 1,
     depth: 2,
   })
 
+  if (!docs.length) {
+    const fallback = await payload.find({
+      collection: 'projects',
+      where: {
+        status: { equals: 'published' },
+      },
+      sort: '-publishedAt',
+      limit: 1,
+      depth: 2,
+    })
+
+    docs = fallback.docs
+  }
+
   const project = docs[0]
+
   if (!project) return null
+
+  // keep everything below this point exactly as it already is
 
   const heroUrl =
     project.hero && typeof project.hero === 'object' ? project.hero.url : null

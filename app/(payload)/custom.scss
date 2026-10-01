@@ -1,0 +1,22 @@
+﻿/* GEEK Control Center
+ * Keep Payload's native light/dark theme system intact.
+ * Only customize GEEK-specific surfaces.
+ */
+
+.template-default .nav {
+  background: #0a0a0a;
+}
+
+.template-default .nav__brand {
+  color: #ffffff;
+}
+
+.before-dashboard {
+  margin-bottom: 2rem;
+}
+
+.before-dashboard .banner {
+  border: 1px solid var(--theme-elevation-200);
+  background: var(--theme-elevation-50);
+  color: var(--theme-text);
+}
