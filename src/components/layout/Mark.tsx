@@ -1,11 +1,14 @@
-export function Mark({ className = '' }: { className?: string }) {
+type Props = { className?: string; title?: string }
+
+export function Mark({ className, title = 'GEEK' }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 100 100"
       fill="none"
+      role="img"
+      aria-label={title}
       className={className}
-      aria-hidden="true"
     >
       <g stroke="currentColor" strokeWidth="8" strokeLinecap="butt" strokeLinejoin="miter">
         <path d="M14 34 V14 H34" />
