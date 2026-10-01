@@ -1,131 +1,105 @@
-import Image from 'next/image'
-import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import Link from 'next/link'
 
-type Params = {
-  params: Promise<{ slug: string }>
-}
-
-async function getProject(slug: string) {
-  const payload = await getPayload({ config })
-
-  const result = await payload.find({
-    collection: 'projects',
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-    limit: 1,
-    depth: 2,
-  })
-
-  return result.docs[0] ?? null
-}
-
-export async function generateMetadata({ params }: Params) {
-  const { slug } = await params
-  const project = await getProject(slug)
-
-  if (!project) {
-    return {}
-  }
-
-  return {
-    title: project.title,
-    description: project.summary || undefined,
-  }
-}
-
-export default async function CaseStudy({ params }: Params) {
-  const { slug } = await params
-  const project = await getProject(slug)
-
-  console.log('CASE STUDY:', {
-    requestedSlug: slug,
-    foundProject: project
-      ? {
-          id: project.id,
-          title: project.title,
-          slug: project.slug,
-          status: project.status,
-          publishedStatus: project._status,
-        }
-      : null,
-  })
-
-  if (!project) {
-    notFound()
-  }
-
-  if (project.status !== 'published') {
-    notFound()
-  }
-
-  const heroUrl =
-    project.hero && typeof project.hero === 'object' ? project.hero.url : null
-
+export default function HomePage() {
   return (
-    <article className="pt-32 pb-[--section-y]">
-      <div className="wrap">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-60 mb-6">
-          {project.client && typeof project.client === 'object'
-            ? project.client.name
-            : 'Case study'}
-        </p>
-
-        <h1 className="font-display font-extrabold text-[length:var(--t-display-l)] tracking-[-0.03em] leading-[0.95] max-w-[16ch]">
-          {project.title}
-        </h1>
-
-        {project.summary && (
-          <p className="mt-8 text-lg text-ink-60 leading-relaxed max-w-[52ch]">
-            {project.summary}
+    <main>
+      <section className="min-h-[85vh] flex items-end">
+        <div className="wrap w-full pb-24 pt-32">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-60 mb-8">
+            Geek Studio · Creative Technology
           </p>
-        )}
-      </div>
 
-      {heroUrl && (
-        <div className="mt-20 aspect-[16/9] relative bg-ink-12">
-          <Image
-            src={heroUrl}
-            alt={project.title}
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority
-          />
+          <h1 className="font-display font-extrabold text-[clamp(4rem,10vw,9rem)] tracking-[-0.055em] leading-[0.86] max-w-[10ch]">
+            Technical precision.
+            <br />
+            Creative soul.
+          </h1>
+
+          <div className="mt-12 flex flex-col md:flex-row md:items-end justify-between gap-10">
+            <p className="text-lg leading-relaxed text-ink-60 max-w-[50ch]">
+              We build brands, digital experiences, campaigns and visual
+              systems for ambitious businesses across East Africa.
+            </p>
+
+            <Link
+              href="/start-a-project"
+              className="font-mono text-[11px] uppercase tracking-[0.18em] border-b border-current pb-2 hover:text-signal transition-colors"
+            >
+              Start a project →
+            </Link>
+          </div>
         </div>
-      )}
+      </section>
 
-      {project.body && (
-        <div className="wrap mt-20 max-w-[68ch] mx-auto">
-          <RichText data={project.body} />
+      <section className="py-[--section-y]">
+        <div className="wrap">
+          <div className="grid md:grid-cols-[0.7fr_1.3fr] gap-12 md:gap-20">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-60">
+                Capabilities
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-x-12 gap-y-12">
+              <div>
+                <h2 className="font-display text-2xl font-bold">
+                  Brand & Design
+                </h2>
+                <p className="mt-3 text-ink-60 leading-relaxed">
+                  Identity systems, campaigns, graphics and visual direction.
+                </p>
+              </div>
+
+              <div>
+                <h2 className="font-display text-2xl font-bold">
+                  Digital
+                </h2>
+                <p className="mt-3 text-ink-60 leading-relaxed">
+                  Websites, digital products, interfaces and technical
+                  experiences.
+                </p>
+              </div>
+
+              <div>
+                <h2 className="font-display text-2xl font-bold">
+                  Media
+                </h2>
+                <p className="mt-3 text-ink-60 leading-relaxed">
+                  Photography, video production, aerial work and content.
+                </p>
+              </div>
+
+              <div>
+                <h2 className="font-display text-2xl font-bold">
+                  Marketing
+                </h2>
+                <p className="mt-3 text-ink-60 leading-relaxed">
+                  Social, campaigns, strategy and growth-focused creative.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+      </section>
 
-      {project.credits && project.credits.length > 0 && (
-        <div className="wrap mt-24 pt-12 border-t border-ink-12">
-          <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-60 mb-6">
-            Credits
+      <section className="py-[--section-y] border-t border-ink-12">
+        <div className="wrap">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-60 mb-8">
+            Have something ambitious in mind?
+          </p>
+
+          <h2 className="font-display font-extrabold text-[clamp(3rem,8vw,7rem)] tracking-[-0.05em] leading-[0.9] max-w-[10ch]">
+            Let&apos;s make it real.
           </h2>
 
-          <dl className="grid md:grid-cols-3 gap-y-6 gap-x-8">
-            {project.credits.map(
-              (c: { role: string; name: string }, i: number) => (
-                <div key={i}>
-                  <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-30">
-                    {c.role}
-                  </dt>
-                  <dd className="mt-1 font-display font-bold">{c.name}</dd>
-                </div>
-              ),
-            )}
-          </dl>
+          <Link
+            href="/start-a-project"
+            className="inline-block mt-10 font-mono text-[11px] uppercase tracking-[0.18em] border-b border-current pb-2 hover:text-signal transition-colors"
+          >
+            Start a project →
+          </Link>
         </div>
-      )}
-    </article>
+      </section>
+    </main>
   )
 }
