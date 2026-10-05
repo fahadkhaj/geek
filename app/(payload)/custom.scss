@@ -1,22 +1,116 @@
-﻿/* GEEK Control Center
- * Keep Payload's native light/dark theme system intact.
- * Only customize GEEK-specific surfaces.
- */
+﻿:root {
+  --theme-elevation-0: #f3f1ec;
+  --theme-elevation-50: #ebe8e1;
+  --theme-elevation-100: #e2ded5;
+  --theme-elevation-150: #d8d4c9;
 
+  --theme-success-500: #2d9b42;
+  --theme-error-500: #ff4a16;
+  --theme-warning-500: #d68c2a;
+
+  --theme-bg: #f3f1ec;
+  --theme-input-bg: rgba(255, 255, 255, 0.55);
+  --theme-text: #0a0a0a;
+
+  --geek-signal: #ff4a16;
+  --geek-ink: #0a0a0a;
+  --geek-paper: #f3f1ec;
+}
+
+.template-default {
+  background: var(--theme-bg);
+}
+
+/* Nav */
 .template-default .nav {
-  background: #0a0a0a;
+  background: rgba(10, 10, 10, 0.94);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.template-default .nav__brand {
-  color: #ffffff;
+.template-default .nav a,
+.template-default .nav__link {
+  color: rgba(243, 241, 236, 0.75);
+  transition: color .25s ease, background .25s ease;
 }
 
-.before-dashboard {
-  margin-bottom: 2rem;
+.template-default .nav a:hover,
+.template-default .nav__link:hover {
+  color: #fff;
+  background: rgba(255, 74, 22, 0.12);
 }
 
-.before-dashboard .banner {
-  border: 1px solid var(--theme-elevation-200);
-  background: var(--theme-elevation-50);
-  color: var(--theme-text);
+.template-default .nav a[aria-current="page"],
+.template-default .nav__link--active {
+  color: #fff;
+  background: rgba(255, 74, 22, 0.18);
+  border-left: 2px solid var(--geek-signal);
+}
+
+/* Header bar */
+.template-default .app-header {
+  background: rgba(243, 241, 236, 0.72);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid rgba(10, 10, 10, 0.08);
+}
+
+/* Cards, tables, inputs — glass treatment */
+.template-default .card,
+.template-default .collection-list__wrap,
+.template-default .doc-controls,
+.template-default table {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(10, 10, 10, 0.08);
+  border-radius: 12px;
+}
+
+.template-default input,
+.template-default textarea,
+.template-default select {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(10, 10, 10, 0.12);
+  border-radius: 8px;
+  transition: border-color .25s ease, background .25s ease;
+}
+
+.template-default input:focus,
+.template-default textarea:focus,
+.template-default select:focus {
+  border-color: var(--geek-signal);
+  background: rgba(255, 255, 255, 0.85);
+  outline: none;
+}
+
+/* Buttons */
+.template-default .btn--style-primary,
+.template-default button[type="submit"] {
+  background: var(--geek-ink);
+  color: var(--geek-paper);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background .25s ease;
+}
+
+.template-default .btn--style-primary:hover,
+.template-default button[type="submit"]:hover {
+  background: var(--geek-signal);
+}
+
+/* Login screen */
+.template-minimal .login {
+  background: var(--geek-paper);
+}
+
+.template-minimal .login__brand {
+  font-family: 'Archivo Black', system-ui, sans-serif;
+  letter-spacing: -0.05em;
+  color: var(--geek-ink);
 }
